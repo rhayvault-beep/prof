@@ -146,57 +146,93 @@ function copyToClipboard() {
 }
 
 // ========================================
-// TESTIMONIAL SLIDER (disabled by default)
-// Set `enableTestimonialsSlider` to true to re-enable sliding behavior.
+// TESTIMONIAL SLIDER
 // ========================================
 
-const enableTestimonialsSlider = true;
+const testimonialsSlider = document.querySelector('.testimonials-slider');
+const prevBtn = document.querySelector('.slider-btn.prev');
+const nextBtn = document.querySelector('.slider-btn.next');
+let currentTestimonial = 0;
+const testimonialCards = document.querySelectorAll('.testimonial-card');
 
-if (enableTestimonialsSlider) {
-    const testimonialsSlider = document.querySelector('.testimonials-slider');
-    const testimonialCards = document.querySelectorAll('.testimonial-card');
-    const prevBtn = document.querySelector('.slider-btn.prev');
-    const nextBtn = document.querySelector('.slider-btn.next');
+function updateSlider() {
+    if (!testimonialsSlider || testimonialCards.length === 0) return;
 
-    let currentIndex = 0;
-    let autoSlideTimer;
+    const currentCard = testimonialCards[currentTestimonial];
+    if (!currentCard) return;
 
-    function showTestimonials() {
-        const width = testimonialsSlider.clientWidth;
-        testimonialsSlider.style.transition = 'transform 0.6s ease';
-        testimonialsSlider.style.transform = `translateX(-${currentIndex * width}px)`;
-    }
+    currentCard.scrollIntoView({ behavior: 'smooth', inline: 'center' });
+    if (prevBtn) prevBtn.disabled = currentTestimonial === 0;
+    if (nextBtn) nextBtn.disabled = currentTestimonial === testimonialCards.length - 1;
+}
 
-    function nextTestimonial() {
-        currentIndex = (currentIndex + 1) % testimonialCards.length;
-        showTestimonials();
-        resetAutoSlide();
-    }
-
-    function prevTestimonial() {
-        currentIndex = (currentIndex - 1 + testimonialCards.length) % testimonialCards.length;
-        showTestimonials();
-        resetAutoSlide();
-    }
-
-    function resetAutoSlide() {
-        clearInterval(autoSlideTimer);
-        autoSlideTimer = setInterval(nextTestimonial, 4000);
-    }
-
-    prevBtn.addEventListener('click', prevTestimonial);
-    nextBtn.addEventListener('click', nextTestimonial);
-
-    // Auto-slide testimonials every 4s
-    autoSlideTimer = setInterval(nextTestimonial, 4000);
-
-    // Responsive slider adjustment
-    window.addEventListener('resize', () => {
-        showTestimonials();
+if (prevBtn) {
+    prevBtn.addEventListener('click', () => {
+        if (currentTestimonial > 0) {
+            currentTestimonial -= 1;
+            updateSlider();
+        }
     });
+}
 
-    // initialize position
-    showTestimonials();
+if (nextBtn) {
+    nextBtn.addEventListener('click', () => {
+        if (currentTestimonial < testimonialCards.length - 1) {
+            currentTestimonial += 1;
+            updateSlider();
+        }
+    });
+}
+
+window.addEventListener('resize', updateSlider);
+
+// Auto-swipe carousel - only start when testimonials section is visible
+let autoSwipeTimer;
+let isAutoSwiping = false;
+
+function autoSwipeCarousel() {
+    if (testimonialsSlider && testimonialCards.length > 0) {
+        if (currentTestimonial < testimonialCards.length - 1) {
+            currentTestimonial += 1;
+        } else {
+            currentTestimonial = 0;
+        }
+        updateSlider();
+    }
+}
+
+function startAutoSwipe() {
+    if (!isAutoSwiping) {
+        isAutoSwiping = true;
+        autoSwipeTimer = setInterval(autoSwipeCarousel, 4000);
+    }
+}
+
+function stopAutoSwipe() {
+    clearInterval(autoSwipeTimer);
+    isAutoSwiping = false;
+}
+
+// Use Intersection Observer to start auto-swipe only when testimonials are visible
+const testimonialsSection = document.querySelector('.testimonials');
+if (testimonialsSection) {
+    const sectionObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                startAutoSwipe();
+            } else {
+                stopAutoSwipe();
+            }
+        });
+    }, { threshold: 0.1 });
+    sectionObserver.observe(testimonialsSection);
+}
+
+if (nextBtn) {
+    nextBtn.addEventListener('click', () => {
+        stopAutoSwipe();
+        setTimeout(startAutoSwipe, 5000);
+    });
 }
 
 // ========================================
@@ -276,14 +312,7 @@ externalLinks.forEach(link => {
 // PARALLAX SCROLL EFFECT
 // ========================================
 
-const heroBackground = document.querySelector('.hero-background');
-
-window.addEventListener('scroll', () => {
-    if (window.scrollY < window.innerHeight) {
-        const offset = window.scrollY * 0.5;
-        heroBackground.style.transform = `translateY(${offset}px)`;
-    }
-});
+// Parallax disabled to keep page completely static on load.
 
 // ========================================
 // PERFORMANCE METRICS

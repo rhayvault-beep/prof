@@ -210,12 +210,11 @@ body {
     background: radial-gradient(circle at 20% 50%, rgba(245, 158, 11, 0.1) 0%, transparent 50%),
                 radial-gradient(circle at 80% 50%, rgba(8, 145, 178, 0.1) 0%, transparent 50%);
     z-index: 0;
-    animation: floatBg 15s ease-in-out infinite;
 }
 
 @keyframes floatBg {
     0%, 100% { transform: translate(0, 0); }
-    50% { transform: translate(10px, -10px); }
+    50% { transform: translate(0, 0); }
 }
 
 .hero .container {
@@ -235,7 +234,6 @@ body {
     font-weight: 900;
     line-height: 1.2;
     margin-bottom: 20px;
-    animation: slideInLeft 0.8s ease-out;
 }
 
 .hero-title .highlight {
@@ -249,7 +247,6 @@ body {
     font-size: 1.75rem;
     color: var(--primary-color);
     margin-bottom: 20px;
-    animation: slideInLeft 0.8s ease-out 0.1s both;
     font-weight: 600;
 }
 
@@ -259,20 +256,17 @@ body {
     margin-bottom: 40px;
     line-height: 1.8;
     max-width: 500px;
-    animation: slideInLeft 0.8s ease-out 0.2s both;
 }
 
 .hero-ctas {
     display: flex;
     gap: 20px;
-    animation: slideInLeft 0.8s ease-out 0.3s both;
 }
 
 .hero-mascot {
     display: flex;
     align-items: center;
     justify-content: center;
-    animation: slideInRight 0.8s ease-out;
 }
 
 .mascot-placeholder {
@@ -333,8 +327,8 @@ body {
 
 @keyframes slideInLeft {
     from {
-        opacity: 0;
-        transform: translateX(-50px);
+        opacity: 1;
+        transform: translateX(0);
     }
     to {
         opacity: 1;
@@ -344,8 +338,8 @@ body {
 
 @keyframes slideInRight {
     from {
-        opacity: 0;
-        transform: translateX(50px);
+        opacity: 1;
+        transform: translateX(0);
     }
     to {
         opacity: 1;
@@ -355,7 +349,7 @@ body {
 
 @keyframes float {
     0%, 100% { transform: translateY(0px); }
-    50% { transform: translateY(-20px); }
+    50% { transform: translateY(0px); }
 }
 
 /* ========================================
@@ -719,16 +713,31 @@ body {
     background: linear-gradient(135deg, rgba(8, 145, 178, 0.05), rgba(15, 23, 42, 0.5));
 }
 
+.testimonials-layout {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 30px;
+    align-items: center;
+    margin-bottom: 40px;
+}
+
 .testimonials-slider {
     display: flex;
     gap: 25px;
-    margin-bottom: 40px;
-    overflow: hidden;
+    overflow-x: auto;
     scroll-behavior: smooth;
+    width: 100%;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+}
+
+.testimonials-slider::-webkit-scrollbar {
+    display: none;
 }
 
 .testimonial-card {
     flex: 0 0 100%;
+    width: 100%;
     max-width: 100%;
     padding: 0;
     border: none;
@@ -736,11 +745,13 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
+    scroll-snap-align: center;
 }
 
 .testimonial-card:hover {
     /* intentionally empty to avoid hover animations */
 }
+
 
 .testimonial-text {
     color: #cbd5e1;
@@ -778,8 +789,9 @@ body {
     width: 100%;
     height: auto;
     display: block;
-    border-radius: 8px;
+    border-radius: 16px;
     object-fit: cover;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
 }
 
 .testimonial-name {
@@ -799,8 +811,11 @@ body {
     margin-top: 30px;
 }
 
-/* hide slider controls when slider is disabled to keep layout clean */
-.slider-nav { display: flex; }
+.slider-btn:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+    transform: none;
+}
 
 /* slide image styling */
 .testimonial-photo {
@@ -874,6 +889,7 @@ body {
     font-size: 1.8rem;
     margin-bottom: 30px;
     color: var(--primary-color);
+    text-align: center;
 }
 
 .payment-method {
