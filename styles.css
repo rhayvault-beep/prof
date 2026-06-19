@@ -3,16 +3,16 @@
    ======================================== */
 
 :root {
-    --primary-color: #f59e0b;
-    --primary-dark: #d97706;
-    --secondary-color: #0891b2;
+    --primary-color: #14f1b2;
+    --primary-dark: #0fc28f;
+    --secondary-color: #14f1b2;
     --text-light: #f3f4f6;
     --text-dark: #1f2937;
-    --bg-dark: #0f172a;
+    --bg-dark: #061018;
     --bg-darker: #020617;
-    --card-bg: #1e293b;
-    --border-color: #334155;
-    --success-color: #10b981;
+    --card-bg: #0b1720;
+    --border-color: #1e293b;
+    --success-color: #14f1b2;
     --warning-color: #ef4444;
 
     --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -148,12 +148,12 @@ body {
 .button-primary {
     background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
     color: var(--bg-dark);
-    box-shadow: 0 4px 15px rgba(245, 158, 11, 0.3);
+    box-shadow: 0 4px 15px rgba(20, 241, 178, 0.3);
 }
 
 .button-primary:hover {
     transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(245, 158, 11, 0.4);
+    box-shadow: 0 6px 20px rgba(20, 241, 178, 0.4);
 }
 
 .button-secondary {
@@ -1142,8 +1142,8 @@ body {
 .disclaimer {
     padding: 40px 0;
     background: rgba(239, 68, 68, 0.05);
-    border-top: 1px solid var(--warning-color);
-    border-bottom: 1px solid var(--warning-color);
+    border-top: 1px solid var(--secondary-color);
+    border-bottom: 1px solid var(--secondary-color);
 }
 
 .disclaimer h3 {
@@ -1163,7 +1163,7 @@ body {
    ======================================== */
 
 .footer {
-    background: linear-gradient(135deg, #0f172a, #020617);
+    background: linear-gradient(135deg, var(--bg-dark), var(--bg-darker));
     color: #cbd5e1;
     padding: 60px 0 20px;
     border-top: 1px solid var(--border-color);
